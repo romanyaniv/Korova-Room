@@ -1,0 +1,93 @@
+---
+title: "Korova Room"
+author: "Roman Yaniv"
+date: "04 06 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Installing packages
+```{r inst_packages, include=FALSE}
+install.packages("gtrendsR", repos = "http://cran.us.r-project.org")
+```
+
+Loading packages
+```{r load_packages, include=TRUE}
+library(gtrendsR)
+library(tidyverse)
+```
+
+Compare directors - Lynch, Tarantino, Hitchcock, Wes Anderson, Kubrick in the US
+```{r directors_US, include=TRUE}
+directors_us <- gtrends(c("David Lynch", "Quentin Tarantino", "Hitchcock", "Wes Anderson", "Kubrick"), geo = "US")
+iot_us <- directors_us$interest_over_time
+```
+
+
+Interest over time after 2020 - Directors US
+```{r d_2020_us, include=TRUE}
+iot2020_us <- iot_us %>% filter(date > as.Date("2020-01-01"))
+iot2020_us %>%
+      ggplot() + geom_line(aes(x = date,
+                              y = hits,
+                              color = keyword)) +
+  theme_minimal() +
+  labs(title = "Directors in the US Comparison")
+```
+
+
+Compare directors - Lynch, Tarantino, Hitchcock, Wes Anderson, Kubrick in the UK
+```{r directors_uk, include=TRUE}
+directors_uk <- gtrends(c("David Lynch", "Quentin Tarantino", "Hitchcock", "Wes Anderson", "Kubrick"), geo = "GB")
+```
+
+Interest over time after 2020 - Directors UK
+```{r d_2020_uk, include=TRUE}
+iot_uk <- directors_uk$interest_over_time
+iot2020_uk <- iot_uk %>% filter(date > as.Date("2020-01-01"))
+iot2020_uk %>%
+      ggplot() + geom_line(aes(x = date,
+                              y = hits,
+                              color = keyword)) +
+  theme_minimal() +
+  labs(title = "Directors in the UK Comparison")
+```
+
+Compare movies - Twin Peaks, Pulp Fiction, Vertigo, Moonrise Kingdom, Clockwork Orange in the US
+```{r movies_us, include=TRUE}
+movies_us <- gtrends(c("Twin Peaks", "Pulp Fiction", "Vertigo", "Moonrise Kingdom", "Clockwork Orange"), geo = "US")
+```
+
+Interest over time after 2020 - Movies US
+```{r m_2020_us, include=TRUE}
+m_iot_us <- movies_us$interest_over_time
+m_iot_us$hits <- as.numeric(m_iot_us$hits)
+m_iot2020_us <- m_iot_us %>% filter(date > as.Date("2020-01-01"))
+m_iot2020_us %>%
+      ggplot() + geom_line(aes(x = date,
+                              y = hits,
+                              color = keyword)) +
+  theme_minimal() +
+  labs(title = "Movies in the US Comparison")
+```
+
+Compare movies - Twin Peaks, Pulp Fiction, Vertigo, Moonrise Kingdom, Clockwork Orange in the UK
+```{r movies_uk, include=TRUE}
+movies_uk <- gtrends(c("Twin Peaks", "Pulp Fiction", "Vertigo", "Moonrise Kingdom", "Clockwork Orange"), geo = "GB")
+```
+
+Interest over time after 2020 - Movies UK
+```{r m_2020_uk, include=TRUE}
+m_iot_uk <- movies_uk$interest_over_time
+m_iot_uk$hits <- as.numeric(m_iot_uk$hits)
+m_iot2020_uk <- m_iot_uk %>% filter(date > as.Date("2020-01-01"))
+m_iot2020_uk %>%
+      ggplot() + geom_line(aes(x = date,
+                              y = hits,
+                              color = keyword)) +
+  theme_minimal() +
+  labs(title = "Movies in the UK Comparison")
+```
